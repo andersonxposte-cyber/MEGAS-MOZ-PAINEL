@@ -1,0 +1,17 @@
+{
+  "name": "MEGAS MOZ — Painel ADM",
+  "short_name": "MEGAS MOZ",
+  "description": "Gestão de stock, compras, vendas e resultados de megas.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#071b16",
+  "theme_color": "#071b16",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

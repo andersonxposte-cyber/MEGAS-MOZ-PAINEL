@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071b16"><meta name="description" content="Painel administrativo MEGAS MOZ">
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg">
+<title>MEGAS MOZ — Painel ADM</title>
+<style>
+:root{--bg:#071b16;--panel:#102820;--panel2:#16372d;--green:#35d07f;--mint:#b7f7d5;--muted:#9bb7aa;--white:#f4fff8;--line:#24483a;--red:#ff7777;--amber:#ffd27a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 85% -10%,#1b6044 0,transparent 40%),var(--bg);color:var(--white);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+.wrap{max-width:850px;margin:auto;padding:20px 15px 42px}header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.5px}.logo{width:43px;height:43px;border-radius:14px;background:var(--green);display:grid;place-items:center;color:#062016;font-size:21px}
+.tag{font-size:11px;color:var(--mint);border:1px solid #34765a;padding:7px 10px;border-radius:99px}
+.hero{padding:22px;border:1px solid #2c654d;border-radius:22px;background:linear-gradient(135deg,#174b35,#10271f 75%)}.eyebrow{color:var(--mint);font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase}
+h1{font-size:clamp(27px,7vw,39px);margin:9px 0 5px}.hero p{color:#c2dfd0;line-height:1.45;margin:0;font-size:13px}
+.section{margin-top:24px}.head{display:flex;align-items:end;justify-content:space-between;gap:10px;margin:0 2px 12px}.head h2{font-size:18px;margin:0}.head small{color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:15px;min-width:0}
+.metric span{font-size:11px;color:var(--muted)}.metric strong{display:block;font-size:clamp(20px,5vw,27px);margin-top:6px;letter-spacing:-.5px}.positive{color:var(--green)}.negative{color:var(--red)}
+.panel{background:#0d241c;border:1px solid var(--line);border-radius:19px;padding:17px;margin-top:12px}
+label{display:block;color:#d4eade;font-weight:700;font-size:12px;margin:12px 0 6px}
+input{width:100%;padding:12px;border-radius:11px;border:1px solid #315b48;background:#071b16;color:white;font-size:16px;outline:none}
+input:focus{border-color:var(--green)}.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+button{border:0;border-radius:12px;padding:13px 14px;font-weight:850;font-size:14px;cursor:pointer}
+.primary{background:var(--green);color:#062016}.secondary{background:#1b3c30;color:var(--mint);border:1px solid #315b48}.danger{background:#492323;color:#ffdada;border:1px solid #743c3c}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}.actions button{flex:1}
+.result{background:#17382c;border-radius:13px;padding:13px;margin-top:13px;display:flex;justify-content:space-between;gap:12px;align-items:center}
+.result span{font-size:11px;color:var(--muted)}.result strong{font-size:18px}
+.notice{font-size:11px;color:var(--amber);line-height:1.5;margin:12px 2px 0}
+.list{display:grid;gap:8px}.rowitem{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 12px;background:#102820;border:1px solid var(--line);border-radius:12px;font-size:12px}.rowitem span{color:var(--muted)}.rowitem b{font-size:13px}
+.linkbox{display:flex;align-items:center;justify-content:space-between;gap:12px}.linkbox p{margin:0;font-size:12px;color:var(--muted);line-height:1.45}.linkbox a{color:var(--mint);text-decoration:none;font-weight:850;white-space:nowrap;font-size:12px}
+footer{text-align:center;color:#779487;font-size:10px;line-height:1.6;margin-top:24px}
+@media(min-width:620px){.cards{grid-template-columns:repeat(4,minmax(0,1fr))}.fields{grid-template-columns:repeat(3,minmax(0,1fr))}}
+</style>
+</head>
+<body><main class="wrap">
+<header><div class="brand"><div class="logo">M</div><span>MEGAS MOZ</span></div><div class="tag">PAINEL ADM</div></header>
+<section class="hero"><div class="eyebrow">Gestão interna</div><h1>Controlo do teu negócio.</h1><p>Regista compras, vendas e ajustes. Acompanha o stock, o dinheiro investido e o resultado do negócio.</p></section>
+
+<section class="section">
+<div class="head"><h2>Resumo do negócio</h2><small>Atualiza ao registar operações</small></div>
+<div class="cards">
+<div class="card metric"><span>Stock atual</span><strong id="stock">0 GB</strong></div>
+<div class="card metric"><span>Total investido</span><strong id="invested">0 MT</strong></div>
+<div class="card metric"><span>Receita de vendas</span><strong id="revenue">0 MT</strong></div>
+<div class="card metric"><span>Lucro / prejuízo</span><strong id="profit">0 MT</strong></div>
+</div>
+</section>
+
+<section class="section">
+<div class="head"><h2>1. Configurar a matemática</h2><small>Valores editáveis</small></div>
+<div class="panel">
+<div class="fields">
+<div><label for="buyBatchCost">Custo de compra (MT)</label><input id="buyBatchCost" type="number" min="0" step="0.01" value="180"></div>
+<div><label for="batchGB">Quantidade comprada (GB)</label><input id="batchGB" type="number" min="0.01" step="0.01" value="10"></div>
+<div><label for="sellBatchRevenue">Venda do lote (MT)</label><input id="sellBatchRevenue" type="number" min="0" step="0.01" value="220"></div>
+</div>
+<div class="result"><div><span>Custo real por GB</span><br><strong id="unitCost">18,00 MT/GB</strong></div><div style="text-align:right"><span>Venda por GB</span><br><strong id="unitSell">22,00 MT/GB</strong></div></div>
+<div class="result"><div><span>Lucro bruto por lote</span><br><strong class="positive" id="batchProfit">40 MT</strong></div><div style="text-align:right"><span>Lucro por GB</span><br><strong class="positive" id="gbProfit">4 MT</strong></div></div>
+<p class="notice">Atenção: 180 MT por 10 GB equivale a 18 MT/GB. Se 22 MT for realmente o teu custo de compra por GB, altera o custo do lote para 220 MT por 10 GB. Os cálculos usam os valores desta configuração.</p>
+<div class="actions"><button class="secondary" id="saveConfig">Guardar configuração</button><button class="secondary" id="resetConfig">Repor 180 / 10 GB / 220</button></div>
+</div>
+</section>
+
+<section class="section">
+<div class="head"><h2>2. Calculadora de 1 a 999 MT</h2><small>Compra estimada</small></div>
+<div class="panel">
+<label for="moneyAmount">Quanto dinheiro queres usar? (MT)</label><input id="moneyAmount" type="number" min="1" max="999" step="1" value="22">
+<div class="result"><div><span>GB que consegues comprar</span><br><strong id="calcGB">1,00 GB</strong></div><div style="text-align:right"><span>Saldo restante</span><br><strong id="calcRest">0 MT</strong></div></div>
+<p class="notice">A calculadora usa o custo real por GB configurado acima. Se quiseres simular a regra de 22 MT por GB, define o custo por GB como 22 MT na configuração do lote (por exemplo, custo de 220 MT para 10 GB).</p>
+</div>
+</section>
+
+<section class="section">
+<div class="head"><h2>3. Registar stock</h2><small>Entradas de megas</small></div>
+<div class="panel">
+<div class="fields">
+<div><label for="purchaseGB">Quantidade recebida (GB)</label><input id="purchaseGB" type="number" min="0.01" step="0.01" placeholder="Ex.: 10"></div>
+<div><label for="purchaseCost">Quanto pagaste (MT)</label><input id="purchaseCost" type="number" min="0" step="0.01" placeholder="Ex.: 180"></div>
+</div>
+<button class="primary" id="addStock" style="width:100%;margin-top:13px">Registar compra / entrada</button>
+</div>
+</section>
+
+<section class="section">
+<div class="head"><h2>4. Registar venda</h2><small>Saídas de stock</small></div>
+<div class="panel">
+<div class="fields">
+<div><label for="saleGB">Quantidade vendida (GB)</label><input id="saleGB" type="number" min="0.01" step="0.01" placeholder="Ex.: 1"></div>
+<div><label for="saleMoney">Valor recebido (MT)</label><input id="saleMoney" type="number" min="0" step="0.01" placeholder="Ex.: 22"></div>
+</div>
+<button class="primary" id="addSale" style="width:100%;margin-top:13px">Registar venda</button>
+<p class="notice">O custo da venda é calculado pelo custo médio do stock disponível. O lucro é receita menos custo atribuído à quantidade vendida.</p>
+</div>
+</section>
+
+<section class="section">
+<div class="head"><h2>5. Registar prejuízo ou ajuste</h2><small>Perdas de stock</small></div>
+<div class="panel">
+<div class="fields">
+<div><label for="lossGB">Stock perdido (GB)</label><input id="lossGB" type="number" min="0.01" step="0.01" placeholder="Ex.: 0.5"></div>
+<div><label for="lossReason">Motivo</label><input id="lossReason" type="text" placeholder="Ex.: erro / expiração"></div>
+</div>
+<button class="danger" id="addLoss" style="width:100%;margin-top:13px">Registar perda</button>
+</div>
+</section>
+
+<section class="section">
+<div class="head"><h2>6. Histórico</h2><small id="historyCount">0 operações</small></div>
+<div class="panel"><div id="history" class="list"><div class="rowitem"><span>Ainda não há operações registadas.</span></div></div>
+<div class="actions"><button class="secondary" id="exportCSV">Exportar CSV</button><button class="danger" id="clearData">Apagar registos</button></div></div>
+</section>
+
+<section class="section">
+<div class="panel linkbox"><div><b>Falar com o ChatGPT sobre megas</b><p>Abre uma conversa com um pedido já preparado sobre stock, fornecedores, preços e lucro.</p></div><a id="chatLink" target="_blank" rel="noopener">Abrir ChatGPT ↗</a></div>
+</section>
+<footer>MEGAS MOZ · Painel administrativo local<br>Os registos ficam guardados neste dispositivo/navegador. Faz exportações de segurança regularmente. Não é uma aplicação oficial da Vodacom.</footer>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const KEY="megasMozAdminV2";
+let state={stockGB:0,stockCost:0,totalInvested:0,revenue:0,realizedProfit:0,lossCost:0,history:[]};
+function load(){try{const x=JSON.parse(localStorage.getItem(KEY));if(x)state={...state,...x}}catch(e){}}
+function save(){localStorage.setItem(KEY,JSON.stringify(state));render()}
+const n=id=>Number($(id).value)||0, money=x=>new Intl.NumberFormat("pt-MZ",{minimumFractionDigits:2,maximumFractionDigits:2}).format(x)+" MT";
+const gb=x=>new Intl.NumberFormat("pt-MZ",{minimumFractionDigits:2,maximumFractionDigits:3}).format(x)+" GB";
+function cfg(){const cost=n("buyBatchCost"),qty=n("batchGB"),sell=n("sellBatchRevenue");return {cost,qty,sell,unitCost:qty>0?cost/qty:0,unitSell:qty>0?sell/qty:0}}
+function updateMath(){
+ const c=cfg();$("unitCost").textContent=money(c.unitCost)+"/GB";$("unitSell").textContent=money(c.unitSell)+"/GB";
+ $("batchProfit").textContent=money(c.sell-c.cost);$("gbProfit").textContent=money(c.unitSell-c.unitCost);
+ const amount=Math.max(0,Math.min(999,n("moneyAmount")));const q=c.unitCost>0?amount/c.unitCost:0;
+ $("calcGB").textContent=gb(q);$("calcRest").textContent=money(amount-q*c.unitCost);
+}
+function render(){
+ $("stock").textContent=gb(state.stockGB);$("invested").textContent=money(state.totalInvested);
+ $("revenue").textContent=money(state.revenue);
+ const profit=state.realizedProfit-state.lossCost;
+ $("profit").textContent=money(profit);$("profit").className=profit>=0?"positive":"negative";
+ $("historyCount").textContent=state.history.length+" operações";
+ const h=$("history");h.innerHTML="";
+ if(!state.history.length){h.innerHTML='<div class="rowitem"><span>Ainda não há operações registadas.</span></div>';return}
+ [...state.history].reverse().forEach(item=>{const d=document.createElement("div");d.className="rowitem";d.innerHTML=`<div><b>${item.type}</b><br><span>${item.detail} · ${item.date}</span></div><b>${item.amount}</b>`;h.appendChild(d)});
+}
+function addHistory(type,detail,amount){state.history.push({type,detail,amount,date:new Date().toLocaleString("pt-MZ")})}
+function positiveInputs(...v){return v.every(x=>Number.isFinite(x)&&x>0)}
+$("saveConfig").onclick=()=>{localStorage.setItem("megasMozConfig",JSON.stringify({buyBatchCost:n("buyBatchCost"),batchGB:n("batchGB"),sellBatchRevenue:n("sellBatchRevenue")}));updateMath();alert("Configuração guardada neste dispositivo.")};
+$("resetConfig").onclick=()=>{$("buyBatchCost").value=180;$("batchGB").value=10;$("sellBatchRevenue").value=220;updateMath()};
+["buyBatchCost","batchGB","sellBatchRevenue","moneyAmount"].forEach(id=>$(id).addEventListener("input",updateMath));
+$("addStock").onclick=()=>{const q=n("purchaseGB"),cost=n("purchaseCost");if(!positiveInputs(q)||cost<0){alert("Indica uma quantidade válida e o custo pago.");return}
+ state.stockGB+=q;state.stockCost+=cost;state.totalInvested+=cost;addHistory("COMPRA",gb(q)+" adicionados",money(cost));save();$("purchaseGB").value="";$("purchaseCost").value=""};
+$("addSale").onclick=()=>{const q=n("saleGB"),rev=n("saleMoney");if(!positiveInputs(q)||rev<0){alert("Indica quantidade e valor recebido válidos.");return}
+ if(q>state.stockGB+1e-9){alert("Stock insuficiente. Stock atual: "+gb(state.stockGB));return}
+ const avg=state.stockGB>0?state.stockCost/state.stockGB:0;const cost=q*avg;state.stockGB-=q;state.stockCost-=cost;state.revenue+=rev;state.realizedProfit+=rev-cost;
+ addHistory("VENDA",gb(q)+" vendidos · custo "+money(cost),money(rev));save();$("saleGB").value="";$("saleMoney").value=""};
+$("addLoss").onclick=()=>{const q=n("lossGB"),reason=$("lossReason").value.trim()||"Ajuste de stock";if(!positiveInputs(q)){alert("Indica a quantidade perdida.");return}
+ if(q>state.stockGB+1e-9){alert("Stock insuficiente para registar esta perda.");return}
+ const avg=state.stockGB>0?state.stockCost/state.stockGB:0;const cost=q*avg;state.stockGB-=q;state.stockCost-=cost;state.lossCost+=cost;addHistory("PERDA",gb(q)+" · "+reason,money(cost));save();$("lossGB").value="";$("lossReason").value=""};
+$("clearData").onclick=()=>{if(confirm("Tens a certeza? Esta ação apaga todos os registos deste dispositivo.")){state={stockGB:0,stockCost:0,totalInvested:0,revenue:0,realizedProfit:0,lossCost:0,history:[]};save()}};
+$("exportCSV").onclick=()=>{const rows=[["Tipo","Detalhe","Valor","Data"],...state.history.map(x=>[x.type,x.detail,x.amount,x.date])];const csv=rows.map(r=>r.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(";")).join("\n");const a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"}));a.download="megas-moz-historico.csv";a.click();URL.revokeObjectURL(a.href)};
+const prompt="Ajuda-me a gerir o meu negócio de revenda de megas em Moçambique. Quero analisar stock, custo por GB, preços de compra e venda, lucro, prejuízo, fornecedores e cálculos. Considera que compro 10 GB por 180 MT e vendo 10 GB por 220 MT, mas também preciso esclarecer a referência de 22 MT por GB.";
+$("chatLink").href="https://chatgpt.com/?q="+encodeURIComponent(prompt);
+load();try{const c=JSON.parse(localStorage.getItem("megasMozConfig"));if(c){$("buyBatchCost").value=c.buyBatchCost;$("batchGB").value=c.batchGB;$("sellBatchRevenue").value=c.sellBatchRevenue}}catch(e){}
+updateMath();render();
+if("serviceWorker"in navigator&&location.protocol.startsWith("http"))addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+</script></body></html>
